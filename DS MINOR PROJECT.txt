@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct node
+{
+    char vehicle_NO[500];
+    char name[500];
+    char date[500];
+    char mobile_No[500];
+    char odometer_reading[500];
+    char fuel_percent[500]; 
+    char Problem[500];
+
+    struct node *next;
+};
+
+struct node *start = NULL;
+int length=0;
+
+int main()
+{
+    printf("Welcome to the DS Vehicle Service Center\n");
+
+    printf("1-service a vehicle\n");
+    printf("2-returned vehicle\n");
+    printf("3-remaining vehicles  \n");
+    printf("5-exit\n");
+    while(1)
+    {
+        printf("\n\n Enter the choice:\t");
+        int choice;
+        scanf("%d",&choice);
+        switch(choice)
+       {
+
+        case 1:insert();
+                break;
+        case 2:del();
+                break;
+        case 3:display();
+                break;
+        case 4:exit(0);
+                break;
+        default:printf("Enter the valid choice\n");
+
+
+       }
+    }
+
+
+}
+void insert()
+{
+    struct node *newnode,*current;
+    newnode=(struct node *)malloc(sizeof(struct node ));
+    newnode->next=NULL;
+    printf("Enter the vehicle owner's name: \t");
+    scanf("%s",newnode->name);
+
+    printf("Enter the vehicle_NO: \t");
+    scanf("%s",newnode->vehicle_NO);
+
+    printf("Enter the date: \t");
+    scanf("%s",newnode->date);
+
+    printf("Enter the mobile no: \t");
+    scanf("%s",newnode->mobile_No);
+
+    printf("Enter the odometer reading: \t");
+    scanf("%s",newnode->odometer_reading);
+
+    printf("Enter the fuel percentage: \t");
+    scanf("%s",newnode->fuel_percent);
+
+    printf("Enter the vehicle problems: \t");
+    scanf("%s",newnode->Problem);
+
+    if(start == NULL)
+    {
+        start=newnode;
+
+    }
+    else{
+        newnode->next=start;
+        start=newnode;
+
+    }
+}
+
+void display()
+{
+    length=0;
+    struct node *newnode;
+    newnode=start;
+    if(newnode==NULL)
+    {
+        printf("no vehicles are registered\n");
+        return;
+    }
+    else
+    {
+    while(newnode!=NULL)
+    {
+        length++;
+        printf("\n Owner's name :%s",newnode->name);
+        printf("\n Vehicle number :%s",newnode->vehicle_NO);
+        printf("\n Entry date:%s",newnode->date);
+        printf("\n mobile no:%s",newnode->mobile_No);
+        printf("\n odometer reading:%s",newnode->odometer_reading);
+        printf("\n fuel percentage:%s",newnode->fuel_percent);
+        printf("\n vehicle problems:%s",newnode->Problem);
+
+        newnode=newnode->next;
+        printf("\n");
+    }
+    printf("Total number of vehicles:%d\n",length);
+    }
+}
+void del()
+{
+    struct node *newnode,*ptr;
+
+    newnode=start;
+     if(newnode==NULL)
+    {
+        printf("no vehicles are registered\n");
+        return;
+    }
+    else if(newnode->next==NULL)
+    {
+        printf("--------------serviced vehicle info------------\n");
+        printf("\n Owner's name :%s",newnode->name);
+        printf("\n Vehicle number :%s",newnode->vehicle_NO);
+        printf("\n Entry date:%s",newnode->date);
+        printf("\n mobile no:%s",newnode->mobile_No);
+        printf("\n odometer reading:%s",newnode->odometer_reading);
+        printf("\n fuel percentage:%s",newnode->fuel_percent);
+        printf("\n vehicle problems:%s",newnode->Problem);
+
+        free(start);
+        start=NULL;
+
+    }
+    else
+    {
+
+    while(newnode->next!=NULL)
+    {
+         ptr=newnode;
+        newnode=newnode->next;
+    }
+        printf("----------serviced vehicle info------------\n");
+        printf("\n Owner's name :%s",newnode->name);
+        printf("\n Vehicle number :%s",newnode->vehicle_NO);
+        printf("\n Entry date:%s",newnode->date);
+        printf("\n mobile no:%s",newnode->mobile_No);
+        printf("\n odometer reading:%s",newnode->odometer_reading);
+        printf("\n fuel percentage:%s",newnode->fuel_percent);
+        printf("\n vehicle problems:%s",newnode->Problem);
+
+    free(ptr->next);
+    ptr->next=NULL;
+    printf("\n\n ------------Remaining vehicles to be serviced------------------\n");
+    display();
+    }
+}
+
